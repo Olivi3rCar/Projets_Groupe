@@ -8,5 +8,5 @@ class Cellule :
 fenetre=Tk()
 fenetre.geometry("1200x800")
 fenetre.resizable(0,0)
-
+print("Lancement !")
 fenetre.mainloop()
