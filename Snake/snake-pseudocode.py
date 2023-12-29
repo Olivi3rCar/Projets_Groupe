@@ -5,7 +5,7 @@ def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell):
     y=nbr_lines*size_cell
     fenetre.geometry(str(x)+"x"+str(y))
 fenetre=Tk()
-creer_grille(20,15,20)
+taille_fenetre_selon_grill(20,15,20)
 fenetre.mainloop()
 
 def resized():
