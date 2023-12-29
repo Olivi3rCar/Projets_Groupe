@@ -22,13 +22,13 @@ class Snake:
             self.direction=(1,0)#met à jour direction, vers le bas
         pass
         
-    def acquerir_cible(self):
+    def acquerir_cible(self,nb_lignes,nb_colonnes):
         pass
     
-    def deplacer(self):
+    def deplacer(self,grille,i_tete,j_tete):
         pass
     
-    def manger(self):
+    def manger(self,grille,i_tete,j_tete):
         pass
         
 class Cellule :
@@ -38,6 +38,7 @@ class Cellule :
 
 
 def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell):
+    """Méthode qui règle la taille de la fenêtre selon les paramêtres de la grille"""
     x=nbr_columns*size_cell
     y=nbr_lines*size_cell
     fenetre.geometry(str(x)+"x"+str(y))
@@ -50,11 +51,11 @@ nb_colonnes=30#paramêtres de la taille de la fenetre selon les paramêtres de l
 nb_lignes=20
 taille_cellule=40
 
-taille_fenetre_selon_grill(nb_colonnes,nb_lignes,taille_cellule)
+taille_fenetre_selon_grill(nb_colonnes,nb_lignes,taille_cellule)#réglage de la taille de la fenetre 
 fenetre.resizable(0,0)
 
-fenetre.bind("<Left>", lambda event: Snake.changer_direction(event))
-fenetre.bind("<Right>",lambda event: Snake.changer_direction(event))
+fenetre.bind("<Left>", lambda event: Snake.changer_direction(event))#binding des touches directionnelles pour faire changer de direction
+fenetre.bind("<Right>",lambda event: Snake.changer_direction(event))#le snake
 fenetre.bind("<Up>",lambda event: Snake.changer_direction(event))
 fenetre.bind("<Down>",lambda event: Snake.changer_direction(event))
 
