@@ -6,7 +6,7 @@ class Snake:
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         pass
     
-    def changer_direction(self,event):
+    def changer_direction(self, event):
         """méthode qui met à jour la direction que va prendre le snake
         """
         if event.keysym=="Left" and self.direction!=(0,1):#si le joueur input Left et que le snake ne va pas à droite
@@ -22,13 +22,48 @@ class Snake:
             self.direction=(1,0)#met à jour direction, vers le bas
         pass
         
-    def acquerir_cible(self,nb_lignes,nb_colonnes):
-        pass
+    def acquerir_cible(self, nb_lignes, nb_colonnes):
+        """Méthode qui renvoie les nouvelles coordonnées de la tête du serpent en fonction de self.direction
+        """
+        (xActu, yActu) = (self.body[0][1],self.body[0][1]) # Définit les coordonnées actuelles de la tête du serpent sous les int xActu et yActu
+        
+        xNouv = xActu + self.direction[0] # Définit la nouvelle abscisse de tête du serpent en additionnant xActu et la valeur d'abscisse de direction
+        if xNouv > nb_colonnes-1: # Cas où la nouvelle abscisse dépasse la dernière colonne par la droite: on "téléporte" la tête de l'autre côté
+            xNouv = 0
+        elif xNouv < 0 : # cas opposé où la nouvelle abscisse dépasse la première colonne par la gauche
+            xNouv = nb_colonnes-1
+        
+        yNouv = yActu + self.direction[1] # Définit la nouvelle ordonnée de tête du serpent en additionnant yActu et la valeur d'ordonnée de direction
+        if yNouv > nb_lignes-1: # Cas où la nouvelle ordonnée dépasse la dernière ligne par le bas: on "téléporte" la tête de l'autre côté
+            yNouv = 0
+        elif yNouv < 0 : # cas opposé où la nouvelle ordonnée dépasse la première ligne par le haut
+            yyouv = nb_lignes-1
+        
+        return (xNouv, yNouv)
     
-    def deplacer(self,grille,i_tete,j_tete):
-        pass
-    
-    def manger(self,grille,i_tete,j_tete):
+    def deplacer(self, grille, i_tete, j_tete):
+        """Méthode qui déplace l'ensemble des cellules constituant le snake vers leurs prochaines coordonnées
+        """
+        global matriceCellules #récupère la matrice des cellules afin de la modifier
+        
+        coordsPrec = self.body[0] # définit les coordonnées de la cellule précédente avant le déplacement, 
+        # afin d'y déplacer ensuite la cellule actuelle (premier cas avec la cellule de tête)
+        self.body[0] = (i_tete, j_tete) # Donne à la tête du snake ses nouvelles coordonnées
+        matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête
+        
+        for cell in range(1, len(self.body)): # Donne leurs nouvelles coordonnées à chaque cellule de body, sauf la tête
+            coordsPrec, self.body[i] = self.body[i], coordsPrec
+            # intervertit les coordonnées de la variable coordsPrec avec les coordonnées de la cellule actuelle du serpent, afin de :
+            # - donner à la cellule actuelle les coordonnées où se trouvait la cellule précédente avant son déplacement
+            # - donner à la variable coordsPrec les coordonnées de la cellule actuelle, afin de les donner à la cellule suivante
+            matriceCellules[self.body[i][0]][self.body[i][1]].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement    
+        
+        matriceCellules[coordPrec[0]][coordsPrec[1]].valeur = 0 # Donne une valeur de 0 (vide) à la cellule étant anciennement la queue du serpent
+        matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête, 
+        # l'action est effectuée après le changement de la queue pour ne pas créer d'erreur dans le cas où le nouvel emplacement de la tête
+        # est le même que l'ancien emplacement de la queue
+        
+    def manger(self, grille, i_tete, j_tete):
         pass
         
 class Cellule :
@@ -37,26 +72,29 @@ class Cellule :
         self.pos = (x, y) # Position de la cellule en fonction de x et y
 
 
-def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell):
+def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
     """Méthode qui règle la taille de la fenêtre selon les paramêtres de la grille"""
-    x=nbr_columns*size_cell
-    y=nbr_lines*size_cell
+    x = nbr_columns*size_cell
+    y=  nbr_lines*size_cell
     fenetre.geometry(str(x)+"x"+str(y))
 
 """Programme Principal"""
-fenetre=Tk()#instance de Tk comme fenetre
+fenetre=Tk() #instance de Tk comme fenetre
 fenetre.title("Snake !")
 
-nb_colonnes=30#paramêtres de la taille de la fenetre selon les paramêtres de la grille 
+nb_colonnes=30 #paramètres de la taille de la fenetre selon les paramêtres de la grille 
 nb_lignes=20
 taille_cellule=40
 
-taille_fenetre_selon_grill(nb_colonnes,nb_lignes,taille_cellule)#réglage de la taille de la fenetre 
+matriceCellules = [Cellule(x, y) for x in range(nb_colonnes) for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
+
+
+taille_fenetre_selon_grill(nb_colonnes, nb_lignes, taille_cellule, fenetre) #réglage de la taille de la fenetre 
 fenetre.resizable(0,0)
 
-fenetre.bind("<Left>", lambda event: Snake.changer_direction(event))#binding des touches directionnelles pour faire changer de direction
-fenetre.bind("<Right>",lambda event: Snake.changer_direction(event))#le snake
-fenetre.bind("<Up>",lambda event: Snake.changer_direction(event))
-fenetre.bind("<Down>",lambda event: Snake.changer_direction(event))
+fenetre.bind("<Left>", lambda event: Snake.changer_direction(event)) #binding des touches directionnelles pour faire changer de direction
+fenetre.bind("<Right>", lambda event: Snake.changer_direction(event)) #le snake
+fenetre.bind("<Up>", lambda event: Snake.changer_direction(event))
+fenetre.bind("<Down>", lambda event: Snake.changer_direction(event))
 
 fenetre.mainloop()
