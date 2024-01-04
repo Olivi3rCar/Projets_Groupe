@@ -1,7 +1,10 @@
 from tkinter import *
 
 class Snake:
-    def __init__(self,grille, cell_centrale):
+    def __init__(self,matriceCellules):
+        #calculer les cellules centrales qui feront le corps du snake en début de partie 
+        cell_centrale=(0,0)#coord de la cell centrale, calculee en fonction de la matrice cellule
+        #si la cell centrale est la tête, alors pour les deux autres cases ont a juste à incrémenter le x des coord x,y
         self.body=[(),(),()]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         pass
@@ -37,7 +40,7 @@ class Snake:
         if yNouv > nb_lignes-1: # Cas où la nouvelle ordonnée dépasse la dernière ligne par le bas: on "téléporte" la tête de l'autre côté
             yNouv = 0
         elif yNouv < 0 : # cas opposé où la nouvelle ordonnée dépasse la première ligne par le haut
-            yyouv = nb_lignes-1
+            yNouv = nb_lignes-1
         
         return (xNouv, yNouv)
     
@@ -52,13 +55,13 @@ class Snake:
         matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête
         
         for cell in range(1, len(self.body)): # Donne leurs nouvelles coordonnées à chaque cellule de body, sauf la tête
-            coordsPrec, self.body[i] = self.body[i], coordsPrec
+            coordsPrec, self.body[cell] = self.body[cell], coordsPrec
             # intervertit les coordonnées de la variable coordsPrec avec les coordonnées de la cellule actuelle du serpent, afin de :
             # - donner à la cellule actuelle les coordonnées où se trouvait la cellule précédente avant son déplacement
             # - donner à la variable coordsPrec les coordonnées de la cellule actuelle, afin de les donner à la cellule suivante
-            matriceCellules[self.body[i][0]][self.body[i][1]].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement    
+            matriceCellules[self.body[cell][0]][self.body[cell][1]].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement    
         
-        matriceCellules[coordPrec[0]][coordsPrec[1]].valeur = 0 # Donne une valeur de 0 (vide) à la cellule étant anciennement la queue du serpent
+        matriceCellules[coordsPrec[0]][coordsPrec[1]].valeur = 0 # Donne une valeur de 0 (vide) à la cellule étant anciennement la queue du serpent
         matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête, 
         # l'action est effectuée après le changement de la queue pour ne pas créer d'erreur dans le cas où le nouvel emplacement de la tête
         # est le même que l'ancien emplacement de la queue
@@ -82,7 +85,7 @@ def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
 fenetre=Tk() #instance de Tk comme fenetre
 fenetre.title("Snake !")
 
-nb_colonnes=30 #paramètres de la taille de la fenetre selon les paramêtres de la grille 
+nb_colonnes=30 #paramètres de la taille de la fenetre selon les paramêtres de la matrice cellule
 nb_lignes=20
 taille_cellule=40
 
