@@ -1,0 +1,17 @@
+classe Snake :
+ initialisateur:
+
+ changer_direction:
+
+ acquérir_cible:
+
+ deplacer:
+
+ manger:
+
+classe Celulle:
+ initialisateur
+
+mise en place de la matrice qui définit la fenetre
+
+Programme principal:

@@ -3,8 +3,8 @@ from tkinter import *
 class Snake:
     def __init__(self,matriceCellules):
         #calculer les cellules centrales qui feront le corps du snake en début de partie 
-        cell_centrale=(0,0)#coord de la cell centrale, calculee en fonction de la matrice cellule
-        #si la cell centrale est la tête, alors pour les deux autres cases ont a juste à incrémenter le x des coord x,y
+        cell_centrale=(0,0)#coord de la cell centrale, calculee en fonction de la matrice cellule, devient i_tete, j_tete
+                            #si la cell centrale est la tête, alors pour les deux autres cases ont a juste à incrémenter le x des coord x,y
         self.body=[(),(),()]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         pass
@@ -28,7 +28,7 @@ class Snake:
     def acquerir_cible(self, nb_lignes, nb_colonnes):
         """Méthode qui renvoie les nouvelles coordonnées de la tête du serpent en fonction de self.direction
         """
-        (xActu, yActu) = (self.body[0][1],self.body[0][1]) # Définit les coordonnées actuelles de la tête du serpent sous les int xActu et yActu
+        (xActu, yActu) = (self.body[0][0],self.body[0][1]) # Définit les coordonnées actuelles de la tête du serpent sous les int xActu et yActu
         
         xNouv = xActu + self.direction[0] # Définit la nouvelle abscisse de tête du serpent en additionnant xActu et la valeur d'abscisse de direction
         if xNouv > nb_colonnes-1: # Cas où la nouvelle abscisse dépasse la dernière colonne par la droite: on "téléporte" la tête de l'autre côté
@@ -67,6 +67,9 @@ class Snake:
         # est le même que l'ancien emplacement de la queue
         
     def manger(self, grille, i_tete, j_tete):
+        #si la cellule cible de la tête à une valeur de 2 (pomme présente):
+        #deplacer le snake
+        #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
         pass
         
 class Cellule :
@@ -80,6 +83,13 @@ def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
     x = nbr_columns*size_cell
     y=  nbr_lines*size_cell
     fenetre.geometry(str(x)+"x"+str(y))
+
+
+def generer_pomme(matriceCellules):
+    #générer coord aléatoire de pomme
+    #si coord de valeur == 0, afficher une pomme
+    #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
+    pass
 
 """Programme Principal"""
 fenetre=Tk() #instance de Tk comme fenetre
