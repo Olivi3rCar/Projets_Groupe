@@ -111,4 +111,3 @@ fenetre.bind("<Up>", lambda event: Snake.changer_direction(event))
 fenetre.bind("<Down>", lambda event: Snake.changer_direction(event))
 
 fenetre.mainloop()
-print("C'est Bon !!")
