@@ -1,4 +1,5 @@
 from tkinter import *
+from random import *
 
 class Snake:
     def __init__(self,matriceCellules):
@@ -86,8 +87,11 @@ def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
 
 
 def generer_pomme(matriceCellules):
-    #générer coord aléatoire de pomme
-    #si coord de valeur == 0, afficher une pomme
+    coord=matriceCellules[randint(0,len(matriceCellules))]#générer coord aléatoire de pomme
+    if coord.valeur==0:
+        #afficher une pomme
+        coord.valeur=2
+    "la fonction manger() appelle la fonction generer pomme après le premier appel de celle ci"
     #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
     pass
 
