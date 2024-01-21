@@ -5,12 +5,12 @@ class Snake:
     def __init__(self,matriceCellules):
         self.mat = matriceCellules # Référence à la matrice matriceCellules
         cell_centrale=self.mat[nb_lignes//2][nb_colonnes//2]#définition de la cellule de tête comme la cellule centrale
-        print(cell_centrale.pos)
         self.body=[cell_centrale,self.mat[cell_centrale.pos[1]][cell_centrale.pos[0]-1],
                    self.mat[cell_centrale.pos[1]][cell_centrale.pos[0]-2]]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         for cell in self.body :
-            cell.changer_couleur(1)
+            cell.valeur = 1
+            cell.changer_couleur()
         pass
     
     def changer_direction(self, event):
