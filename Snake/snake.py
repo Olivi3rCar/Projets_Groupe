@@ -79,22 +79,29 @@ class Cellule :
 
 
 def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
-    """Méthode qui règle la taille de la fenêtre selon les paramêtres de la grille"""
+    """Fonction qui règle la taille de la fenêtre selon les paramêtres de la grille"""
     x = nbr_columns*size_cell
     y=  nbr_lines*size_cell
     fenetre.geometry(str(x)+"x"+str(y))
 
 
 def generer_pomme(matriceCellules):
+    """Fonction qui génère une pomme à des coordonnées aléatoires de la grille, tant que ces coords pointent une case vide
+
+    Args:
+        matriceCellules (_type_): des cellules
+    """
     coord=matriceCellules[randint(0,len(matriceCellules))]#générer coord aléatoire de pomme
     if coord.valeur==0:
         #afficher une pomme
         coord.valeur=2
-    "la fonction manger() appelle la fonction generer pomme après le premier appel de celle ci"
+    #la fonction manger() appelle la fonction generer pomme après le premier appel de celle ci
     #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
     pass
 
 def tour_de_jeu():
+    """Fonction qui analyse la case cible du snake aprèsson acquisition par la fonction acquerir_cible, et déplace le snake selon les cas possibles
+    """
     #analyse la case cible trois cas possible
     #la case est vide:
         #le snake se déplace simplement
@@ -105,6 +112,8 @@ def tour_de_jeu():
     pass
 
 def dessiner_grille(matriceCellules):
+    """Fonction qui s'occupe d'afficher la grille et les elements qu'elle contient
+    """
     #delete tout le canvas
     #parcours la matrice de cellule et check la valeur de chaque case:
         #si val=0, ne rien afficher
@@ -119,13 +128,14 @@ fenetre.title("Snake !")
 nb_colonnes=30 #paramètres de la taille de la fenetre selon les paramêtres de la matrice cellule
 nb_lignes=20
 taille_cellule=40
+taille_fenetre_selon_grill(nb_colonnes, nb_lignes, taille_cellule, fenetre) #réglage de la taille de la fenetre 
+fenetre.resizable(0,0)
+
 
 matriceCellules = [Cellule(x, y) for x in range(nb_colonnes) for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
 python=Snake(matriceCellules)#instance de la classe snake dans la matrice de cellules
 generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
 
-taille_fenetre_selon_grill(nb_colonnes, nb_lignes, taille_cellule, fenetre) #réglage de la taille de la fenetre 
-fenetre.resizable(0,0)
 
 fenetre.bind("<Left>", lambda event: Snake.changer_direction(event)) #binding des touches directionnelles pour faire changer de direction
 fenetre.bind("<Right>", lambda event: Snake.changer_direction(event)) #le snake
