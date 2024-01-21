@@ -65,10 +65,11 @@ class Snake:
         # l'action est effectuée après le changement de la queue pour ne pas créer d'erreur dans le cas où le nouvel emplacement de la tête
         # est le même que l'ancien emplacement de la queue
         
-    def manger(self, grille, i_tete, j_tete):
-        if self.acquerir_cible().val==2:#si la cellule cible de la tête à une valeur de 2 (pomme présente):
-            #deplacer le snake
+    def manger(self, matriceCellules, i_tete, j_tete):
+        if self.acquerir_cible().val==2:#si la cellule cible de la tête à une valeur de 2 (pomme présente), analyse donnée par def tour_de_jeu
+            pass#deplacer le snake
         #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
+        generer_pomme(matriceCellules)
         pass
         
 class Cellule :
@@ -93,6 +94,24 @@ def generer_pomme(matriceCellules):
     #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
     pass
 
+def tour_de_jeu():
+    #analyse la case cible trois cas possible
+    #la case est vide:
+        #le snake se déplace simplement
+    #la case contient une pomme:
+        #le snake se deplace avec la fonction manger qui ajoute un segemnt à son corps
+    #la case contient un segment du corps du snake:
+        #game over, la partie est arrêtée
+    pass
+
+def dessiner_grille(matriceCellules):
+    #delete tout le canvas
+    #parcours la matrice de cellule et check la valeur de chaque case:
+        #si val=0, ne rien afficher
+        #si val=1, dessiner un cube vert (corps du snake)
+        #si val=2, dessiner un cercle rond (pomme)
+    pass 
+
 """Programme Principal"""
 fenetre=Tk() #instance de Tk comme fenetre
 fenetre.title("Snake !")
@@ -102,7 +121,8 @@ nb_lignes=20
 taille_cellule=40
 
 matriceCellules = [Cellule(x, y) for x in range(nb_colonnes) for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
-
+python=Snake(matriceCellules)#instance de la classe snake dans la matrice de cellules
+generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
 
 taille_fenetre_selon_grill(nb_colonnes, nb_lignes, taille_cellule, fenetre) #réglage de la taille de la fenetre 
 fenetre.resizable(0,0)
