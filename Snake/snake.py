@@ -32,7 +32,7 @@ class Snake:
     def acquerir_cible(self):
         """Méthode qui renvoie les nouvelles coordonnées de la tête du serpent en fonction de self.direction_cible
         """
-        self.direction = self.direction_cible # affecte à direction la valeur de direction_cible pour éviter les problèmes de direction
+        self.direction = self.direction_cible # affecte à direction la valeur de direction_cible pour éviter les problèmes de direction/mouvement
         (yActu, xActu) = (self.body[0][0],self.body[0][1]) # Définit les coordonnées actuelles de la tête du serpent sous les int xActu et yActu
         
         xNouv = xActu + self.direction[1] # Définit la nouvelle abscisse de tête du serpent en additionnant xActu et la valeur d'abscisse de direction
@@ -79,7 +79,7 @@ class Snake:
         ancien_dernier = self.body[-1] # on enregistre les coordonnées du dernier élément du snake
         self.deplacer()# deplacer le snake grâce à la première fonction
         self.body.append(ancien_dernier)# on lui ajoute un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
-        self.mat[self.body[0][0]][self.body[0][1]].valeur = 1 # redonne une valeur de 1 à la cellule à l'emplacement de la nouvelle queue
+        self.mat[self.body[-1][0]][self.body[-1][1]].valeur = 1 # redonne une valeur de 1 à la cellule à l'emplacement de la nouvelle queue
         generer_pomme(self.mat) # on génère une nouvelle pomme
 
         
@@ -87,11 +87,18 @@ class Cellule :
     def __init__(self, x, y):
         self.valeur = 0 # Cellule vide au départ
         self.pos = (x, y) # Position de la cellule en fonction de x et y
-        self.rect = canevas.create_rectangle(x*taille_cellule,y*taille_cellule,(x*taille_cellule)+taille_cellule,(y*taille_cellule)+taille_cellule)
+        self.rect = canevas.create_rectangle(x*taille_cellule,y*taille_cellule,(x*taille_cellule)+taille_cellule,(y*taille_cellule)+taille_cellule,
+                                             outline="")
+        self.oval = canevas.create_oval(x*taille_cellule,y*taille_cellule,(x*taille_cellule)+taille_cellule-1,(y*taille_cellule)+taille_cellule-1,
+                                        outline="")
     
-    def changer_couleur(self):
-        """Méthode qui permet de changer la couleur de la cellule en l'élément qu'elle représente"""
-        canevas.itemconfig(self.rect, fill = COULEURS[self.valeur])
+    def changer_apparence(self):
+        """Méthode qui permet de changer la couleur de la cellule en celle de l'élément qu'elle représente"""
+        if self.valeur < 2:
+            canevas.itemconfig(self.oval, fill = COULEURS[self.valeur])#change la couleur du rectangle et de l'ovale
+            canevas.itemconfig(self.rect, fill = COULEURS[self.valeur])#si la cellule est vide ou une partie du snake
+        else :
+            canevas.itemconfig(self.oval, fill = COULEURS[self.valeur])#change uniquement la couleur de l'ovale si la cellule est une pomme
 
 def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
     """Fonction qui règle la taille de la fenêtre selon les paramêtres de la grille"""
@@ -126,11 +133,13 @@ def tour_de_jeu(snake):
     if val == 0 :#la case est vide
         snake.deplacer() #le snake se déplace simplement
         dessiner_grille(matriceCellules)
-        fenetre.after(500, tour_de_jeu, snake)
+        fenetre.after(50, tour_de_jeu, snake)
     elif val == 2 : #la case contient une pomme:
+        SUITECOULEURS.append(COULEURS[1])
+        COULEURS[1] = SUITECOULEURS.pop(0) #change la couleur du snake à la prochaine valeur dans SUITECOULEURS
         snake.manger() #le snake se deplace avec la fonction manger qui ajoute un segment à son corps
         dessiner_grille(matriceCellules)
-        fenetre.after(500, tour_de_jeu, snake)
+        fenetre.after(50, tour_de_jeu, snake)
     elif val == 1 :#la case contient un segment du corps du snake:
         game_over(snake)
 
@@ -139,7 +148,7 @@ def dessiner_grille(matriceCellules):
     """
     for ligne in matriceCellules :
         for cell in ligne :
-            cell.changer_couleur() # appel de la méthode changer_couleur, qui s'occupe de changer la couleur de la cellule en fonction de a valeur
+            cell.changer_apparence() # appel de la méthode changer_apparence, qui s'occupe de changer l'apparence de la cellule en fonction de sa valeur
 
 """Programme Principal"""
 fenetre=Tk() #instance de Tk comme fenetre
@@ -152,7 +161,9 @@ taille_cellule=40
 taille_fenetre_selon_grill(nb_colonnes, nb_lignes, taille_cellule, fenetre) #réglage de la taille de la fenetre 
 fenetre.resizable(0,0)
 
-COULEURS = ["white","green","red"]
+COULEURS = ["white","green","red"] # définit les couleurs pour les valeurs [0, 1, et 2]
+SUITECOULEURS = ["yellow green","gold","dark orange","firebrick",
+                 "deep pink", "magenta2", "purple2", "royal blue"]# Définit une suite de couleurs pour que le snake en change
 canevas = Canvas()
 canevas.pack(expand = True, fill = "both")
 
