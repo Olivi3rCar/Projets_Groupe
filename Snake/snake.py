@@ -3,7 +3,7 @@ from random import *
 
 class Snake:
     def __init__(self,matriceCellules):
-        cell_centrale=matriceCellules[nb_colonnes//2][nb_lignes//2]#définition de la cellule de tête comme la cellule centrale
+        cell_centrale=matriceCellules[nb_lignes//2][nb_colonnes//2]#définition de la cellule de tête comme la cellule centrale
         self.body=[cell_centrale,(cell_centrale.pos[0]+1,cell_centrale.pos[1]),(cell_centrale.pos[0]+2,cell_centrale.pos[1])]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         pass
@@ -76,7 +76,11 @@ class Cellule :
     def __init__(self, x, y):
         self.valeur = 0 # Cellule vide au départ
         self.pos = (x, y) # Position de la cellule en fonction de x et y
-
+        self.rect = canevas.create_rectangle(x*taille_cellule,y*taille_cellule,(x*taille_cellule)+taille_cellule,(y*taille_cellule)+taille_cellule)
+    
+    def changer_couleur(self, nouv):
+        
+        pass
 
 def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
     """Fonction qui règle la taille de la fenêtre selon les paramêtres de la grille"""
@@ -91,7 +95,7 @@ def generer_pomme(matriceCellules):
     Args:
         matriceCellules (_type_): des cellules
     """
-    coord=matriceCellules[randint(0,len(matriceCellules))]#générer coord aléatoire de pomme
+    coord=matriceCellules[randint(0, nb_lignes)][randint(0, nb_colonnes)]#générer coord aléatoire de pomme
     if coord.valeur==0:
         #afficher une pomme
         coord.valeur=2
@@ -125,14 +129,18 @@ def dessiner_grille(matriceCellules):
 fenetre=Tk() #instance de Tk comme fenetre
 fenetre.title("Snake !")
 
+
 nb_colonnes=30 #paramètres de la taille de la fenetre selon les paramêtres de la matrice cellule
 nb_lignes=20
 taille_cellule=40
 taille_fenetre_selon_grill(nb_colonnes, nb_lignes, taille_cellule, fenetre) #réglage de la taille de la fenetre 
 fenetre.resizable(0,0)
 
+COULEURS = ["white","green","red"]
+canevas = Canvas()
+canevas.pack(expand = True, fill = "both")
 
-matriceCellules = [Cellule(x, y) for x in range(nb_colonnes) for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
+matriceCellules = [[Cellule(x, y) for x in range(nb_colonnes)] for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
 python=Snake(matriceCellules)#instance de la classe snake dans la matrice de cellules
 generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
 
