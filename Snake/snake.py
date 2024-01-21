@@ -3,9 +3,14 @@ from random import *
 
 class Snake:
     def __init__(self,matriceCellules):
-        cell_centrale=matriceCellules[nb_lignes//2][nb_colonnes//2]#définition de la cellule de tête comme la cellule centrale
-        self.body=[cell_centrale,(cell_centrale.pos[0]+1,cell_centrale.pos[1]),(cell_centrale.pos[0]+2,cell_centrale.pos[1])]#liste de couples représentant le corps du snake 
+        self.mat = matriceCellules # Référence à la matrice matriceCellules
+        cell_centrale=self.mat[nb_lignes//2][nb_colonnes//2]#définition de la cellule de tête comme la cellule centrale
+        print(cell_centrale.pos)
+        self.body=[cell_centrale,self.mat[cell_centrale.pos[1]][cell_centrale.pos[0]-1],
+                   self.mat[cell_centrale.pos[1]][cell_centrale.pos[0]-2]]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
+        for cell in self.body :
+            cell.changer_couleur(1)
         pass
     
     def changer_direction(self, event):
@@ -65,11 +70,12 @@ class Snake:
         # l'action est effectuée après le changement de la queue pour ne pas créer d'erreur dans le cas où le nouvel emplacement de la tête
         # est le même que l'ancien emplacement de la queue
         
+        
     def manger(self, matriceCellules, i_tete, j_tete):
-        if self.acquerir_cible().val==2:#si la cellule cible de la tête à une valeur de 2 (pomme présente), analyse donnée par def tour_de_jeu
-            pass#deplacer le snake
-        #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
-        generer_pomme(matriceCellules)
+        # if self.acquerir_cible().val==2:#si la cellule cible de la tête à une valeur de 2 (pomme présente), analyse donnée par def tour_de_jeu
+        #     pass#deplacer le snake
+        # #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
+        # generer_pomme(matriceCellules)
         pass
         
 class Cellule :
@@ -78,9 +84,9 @@ class Cellule :
         self.pos = (x, y) # Position de la cellule en fonction de x et y
         self.rect = canevas.create_rectangle(x*taille_cellule,y*taille_cellule,(x*taille_cellule)+taille_cellule,(y*taille_cellule)+taille_cellule)
     
-    def changer_couleur(self, nouv):
-        
-        pass
+    def changer_couleur(self):
+        """Méthode qui permet de changer la couleur de la cellule en l'élément qu'elle représente"""
+        canevas.itemconfig(self.rect, fill = COULEURS[self.valeur])
 
 def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
     """Fonction qui règle la taille de la fenêtre selon les paramêtres de la grille"""
@@ -142,8 +148,7 @@ canevas.pack(expand = True, fill = "both")
 
 matriceCellules = [[Cellule(x, y) for x in range(nb_colonnes)] for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
 python=Snake(matriceCellules)#instance de la classe snake dans la matrice de cellules
-generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
-
+#generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
 
 fenetre.bind("<Left>", lambda event: Snake.changer_direction(event)) #binding des touches directionnelles pour faire changer de direction
 fenetre.bind("<Right>", lambda event: Snake.changer_direction(event)) #le snake
