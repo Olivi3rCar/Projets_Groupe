@@ -3,9 +3,7 @@ from random import *
 
 class Snake:
     def __init__(self,matriceCellules):
-        #calculer les cellules centrales qui feront le corps du snake en début de partie 
-        cell_centrale=matriceCellules[(len(matriceCellules))//2].pos#coord de la cell centrale, calculee en fonction de la matrice cellule, devient i_tete, j_tete
-                            #si la cell centrale est la tête, alors pour les deux autres cases ont a juste à incrémenter le x des coord x,y
+        cell_centrale=matriceCellules[(len(matriceCellules))//2].pos#définition de la cellule de tête comme la cellule centrale
         self.body=[cell_centrale,(cell_centrale[0]+1,cell_centrale[1]),(cell_centrale[0]+2,cell_centrale[1])]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         pass
@@ -68,8 +66,8 @@ class Snake:
         # est le même que l'ancien emplacement de la queue
         
     def manger(self, grille, i_tete, j_tete):
-        #si la cellule cible de la tête à une valeur de 2 (pomme présente):
-        #deplacer le snake
+        if self.acquerir_cible().val==2:#si la cellule cible de la tête à une valeur de 2 (pomme présente):
+            #deplacer le snake
         #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
         pass
         
