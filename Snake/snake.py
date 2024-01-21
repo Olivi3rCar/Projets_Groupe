@@ -23,7 +23,7 @@ class Snake:
             
         if event.keysym=="Down" and self.direction!=(-1,0):#si le joueur input Down et que le snake ne va pas en haut
             self.direction=(1,0)#met à jour direction, vers le bas
-        pass
+    
         
     def acquerir_cible(self, nb_lignes, nb_colonnes):
         """Méthode qui renvoie les nouvelles coordonnées de la tête du serpent en fonction de self.direction
@@ -70,6 +70,9 @@ class Snake:
         #si la cellule cible de la tête à une valeur de 2 (pomme présente):
         #deplacer le snake
         #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
+        if grille == 
+            self.body =(i_tete, j_tete)
+            self.grille.a.jour(self.body)
         pass
         
 class Cellule :
@@ -78,17 +81,21 @@ class Cellule :
         self.pos = (x, y) # Position de la cellule en fonction de x et y
 
 
-def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
+def taille_fenetre_selon_grill(self, nbr_columns, nbr_lines, size_cell, fenetre):
     """Méthode qui règle la taille de la fenêtre selon les paramêtres de la grille"""
     x = nbr_columns*size_cell
     y=  nbr_lines*size_cell
     fenetre.geometry(str(x)+"x"+str(y))
 
 
-def generer_pomme(matriceCellules):
+def generer_pomme(self, matriceCellules):
     #générer coord aléatoire de pomme
     #si coord de valeur == 0, afficher une pomme
     #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
+    if coord == 0:
+        x= (0, 5)# Langeur de la pomme
+        y=(0, 5)# la hauteur de la pomme
+        self.pomme =self.canvas.create.lozenge(x, y, x+ 5, y+ 5, fill="red")
     pass
 
 """Programme Principal"""
@@ -111,4 +118,3 @@ fenetre.bind("<Up>", lambda event: Snake.changer_direction(event))
 fenetre.bind("<Down>", lambda event: Snake.changer_direction(event))
 
 fenetre.mainloop()
-print("C'est bon !")
