@@ -56,27 +56,32 @@ class Snake:
         (i_tete, j_tete) = self.acquerir_cible() #Donne à i et j les prochaines coordonnées de la tête du serpent
         
         self.body[0] = (i_tete, j_tete) # Donne à la tête du snake ses nouvelles coordonnées
-        matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête
+        self.mat[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête
         
         for cell in range(1, len(self.body)): # Donne leurs nouvelles coordonnées à chaque cellule de body, sauf la tête
             coordsPrec, self.body[cell] = self.body[cell], coordsPrec
             # intervertit les coordonnées de la variable coordsPrec avec les coordonnées de la cellule actuelle du serpent, afin de :
             # - donner à la cellule actuelle les coordonnées où se trouvait la cellule précédente avant son déplacement
             # - donner à la variable coordsPrec les coordonnées de la cellule actuelle, afin de les donner à la cellule suivante
-            matriceCellules[self.body[cell][0]][self.body[cell][1]].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement    
+            self.mat[self.body[cell][0]][self.body[cell][1]].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement    
         
-        matriceCellules[coordsPrec[0]][coordsPrec[1]].valeur = 0 # Donne une valeur de 0 (vide) à la cellule étant anciennement la queue du serpent
-        matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête, 
+        self.mat[coordsPrec[0]][coordsPrec[1]].valeur = 0 # Donne une valeur de 0 (vide) à la cellule étant anciennement la queue du serpent
+        self.mat[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête, 
         # l'action est effectuée après le changement de la queue pour ne pas créer d'erreur dans le cas où le nouvel emplacement de la tête
         # est le même que l'ancien emplacement de la queue
         
         
     def manger(self):
-        # if self.acquerir_cible().val==2:#si la cellule cible de la tête à une valeur de 2 (pomme présente), analyse donnée par def tour_de_jeu
-        #     pass#deplacer le snake
-        # #lui ajouter un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
-        # generer_pomme(matriceCellules)
-        pass
+        """Méthode qui déplace l'ensemble des cellules constituant le snake vers leurs prochaines coordonnées,
+        et qui rallonge le snake en ajoutant un élément à la fin de la liste
+        """
+        # fonction appelée si la cellule cible de la tête à une valeur de 2 (pomme présente), analyse donnée par def tour_de_jeu
+        ancien_dernier = self.body[-1] # on enregistre les coordonnées du dernier élément du snake
+        self.deplacer()# deplacer le snake grâce à la première fonction
+        self.body.append(ancien_dernier)# on lui ajoute un nouveau segment à sa queue (soit à l'ancien emplacement de la queue après déplacement)
+        self.mat[self.body[0][0]][self.body[0][1]].valeur = 1 # redonne une valeur de 1 à la cellule à l'emplacement de la nouvelle queue
+        generer_pomme(self.mat) # on génère une nouvelle pomme
+
         
 class Cellule :
     def __init__(self, x, y):
@@ -97,14 +102,12 @@ def taille_fenetre_selon_grill(nbr_columns, nbr_lines, size_cell, fenetre):
 
 def generer_pomme(matriceCellules):
     """Fonction qui génère une pomme à des coordonnées aléatoires de la grille, tant que ces coords pointent une case vide
-
-    Args:
-        matriceCellules (_type_): des cellules
     """
-    coord=matriceCellules[randint(0, nb_lignes)][randint(0, nb_colonnes)]#générer coord aléatoire de pomme
-    if coord.valeur==0:
-        #afficher une pomme
-        coord.valeur=2
+    coord=matriceCellules[randint(0, nb_lignes-1)][randint(0, nb_colonnes-1)]#générer coord aléatoire de pomme
+    while coord.valeur!=0:
+        coord=matriceCellules[randint(0, nb_lignes-1)][randint(0, nb_colonnes-1)]#modifie les coordonnées si elles sont sur une case non vide
+    #afficher une pomme
+    coord.valeur=2
     #la fonction manger() appelle la fonction generer pomme après le premier appel de celle ci
     #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
     pass
@@ -123,11 +126,11 @@ def tour_de_jeu(snake):
     if val == 0 :#la case est vide
         snake.deplacer() #le snake se déplace simplement
         dessiner_grille(matriceCellules)
-        fenetre.after(250, tour_de_jeu, snake)
+        fenetre.after(500, tour_de_jeu, snake)
     elif val == 2 : #la case contient une pomme:
-        snake.manger() #le snake se deplace avec la fonction manger qui ajoute un segemnt à son corps
+        snake.manger() #le snake se deplace avec la fonction manger qui ajoute un segment à son corps
         dessiner_grille(matriceCellules)
-        fenetre.after(250, tour_de_jeu, snake)
+        fenetre.after(500, tour_de_jeu, snake)
     elif val == 1 :#la case contient un segment du corps du snake:
         game_over(snake)
 
@@ -155,7 +158,7 @@ canevas.pack(expand = True, fill = "both")
 
 matriceCellules = [[Cellule(x, y) for x in range(nb_colonnes)] for y in range(nb_lignes)] # Matrice des cellules définissant l'espace de jeu
 python=Snake(matriceCellules)#instance de la classe snake dans la matrice de cellules
-#generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
+generer_pomme(matriceCellules)#premier appel de la fonction generer_pomme
 
 fenetre.bind("<Left>", lambda event: python.changer_direction(event)) #binding des touches directionnelles pour faire changer de direction
 fenetre.bind("<Right>", lambda event: python.changer_direction(event)) #le snake
