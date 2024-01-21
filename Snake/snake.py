@@ -7,54 +7,54 @@ class Snake:
         cell_centrale=(nb_colonnes//2,nb_lignes//2)#définition de la cellule de tête comme la cellule centrale
         self.body=[cell_centrale,(cell_centrale[0],cell_centrale[1]-1),
                    (cell_centrale[0],cell_centrale[1]-2)]#liste de couples représentant le corps du snake 
-        self.direction=(0,1)#droite au départ, change plus tard selon les inputs du joueur
-        self.direction_cible = self.direction # attribut permettant d'empêcher d'éventuels problèmes au niveau du mouvement
         for cell in self.body :
             self.mat[cell[0]][cell[1]].valeur = 1
         dessiner_grille(self.mat)
+        self.direction=(0,1)#droite au départ, change plus tard selon les inputs du joueur
+        self.direction_cible = self.direction # attribut permettant d'empêcher d'éventuels problèmes au niveau du mouvement
     
     def changer_direction(self, event):
         """méthode qui met à jour la direction que va prendre le snake
         """
-        if event.keysym=="Left" and self.direction_cible!=(0,1):#si le joueur input Left et que le snake ne va pas à droite
+        if event.keysym=="Left" and self.direction!=(0,1):#si le joueur input Left et que le snake ne va pas à droite
             self.direction_cible=(0,-1)#met à jour direction_cible, vers la gauche
             
-        if event.keysym=="Right" and self.direction_cible!=(0,-1):#si le joueur input Right et que le snake ne va pas à gauche
+        if event.keysym=="Right" and self.direction!=(0,-1):#si le joueur input Right et que le snake ne va pas à gauche
             self.direction_cible=(0,1)#met à jour direction_cible, vers la droite
             
-        if event.keysym=="Up" and self.direction_cible!=(1,0):#si le joueur input Up et que le snake ne va pas en bas
+        if event.keysym=="Up" and self.direction!=(1,0):#si le joueur input Up et que le snake ne va pas en bas
             self.direction_cible=(-1,0)#met à jour direction_cible, vers le haut
             
-        if event.keysym=="Down" and self.direction_cible!=(-1,0):#si le joueur input Down et que le snake ne va pas en haut
+        if event.keysym=="Down" and self.direction!=(-1,0):#si le joueur input Down et que le snake ne va pas en haut
             self.direction_cible=(1,0)#met à jour direction_cible, vers le bas
         pass
         
     def acquerir_cible(self):
         """Méthode qui renvoie les nouvelles coordonnées de la tête du serpent en fonction de self.direction_cible
         """
-        (xActu, yActu) = (self.body[0][0],self.body[0][1]) # Définit les coordonnées actuelles de la tête du serpent sous les int xActu et yActu
+        self.direction = self.direction_cible # affecte à direction la valeur de direction_cible pour éviter les problèmes de direction
+        (yActu, xActu) = (self.body[0][0],self.body[0][1]) # Définit les coordonnées actuelles de la tête du serpent sous les int xActu et yActu
         
-        xNouv = xActu + self.direction_cible[0] # Définit la nouvelle abscisse de tête du serpent en additionnant xActu et la valeur d'abscisse de direction
+        xNouv = xActu + self.direction[1] # Définit la nouvelle abscisse de tête du serpent en additionnant xActu et la valeur d'abscisse de direction
         if xNouv > nb_colonnes-1: # Cas où la nouvelle abscisse dépasse la dernière colonne par la droite: on "téléporte" la tête de l'autre côté
             xNouv = 0
         elif xNouv < 0 : # cas opposé où la nouvelle abscisse dépasse la première colonne par la gauche
             xNouv = nb_colonnes-1
         
-        yNouv = yActu + self.direction_cible[1] # Définit la nouvelle ordonnée de tête du serpent en additionnant yActu et la valeur d'ordonnée de direction
+        yNouv = yActu + self.direction[0] # Définit la nouvelle ordonnée de tête du serpent en additionnant yActu et la valeur d'ordonnée de direction
         if yNouv > nb_lignes-1: # Cas où la nouvelle ordonnée dépasse la dernière ligne par le bas: on "téléporte" la tête de l'autre côté
             yNouv = 0
         elif yNouv < 0 : # cas opposé où la nouvelle ordonnée dépasse la première ligne par le haut
             yNouv = nb_lignes-1
         
-        return (xNouv, yNouv)
+        return (yNouv, xNouv)
     
     def deplacer(self):
         """Méthode qui déplace l'ensemble des cellules constituant le snake vers leurs prochaines coordonnées
         """
+        coordsPrec = self.body[0] #enregistre les coordonnées de la tête du serpent avant le déplacement
+        (i_tete, j_tete) = self.acquerir_cible() #Donne à i et j les prochaines coordonnées de la tête du serpent
         
-        coordsPrec = self.body[0] # définit les coordonnées de la cellule précédente avant le déplacement, 
-        # afin d'y déplacer ensuite la cellule actuelle (premier cas avec la cellule de tête)
-        i_tete,j_tete = coordsPrec[0]+self.direction[0],coordsPrec[1]+self.direction[1]
         self.body[0] = (i_tete, j_tete) # Donne à la tête du snake ses nouvelles coordonnées
         matriceCellules[i_tete][j_tete].valeur = 1 # Donne une valeur de 1 (snake) à la cellule au nouvel emplacement de la tête
         
@@ -111,24 +111,23 @@ def generer_pomme(matriceCellules):
 
 def game_over(snake):
     score = len(snake.body)-3
-    canevas.create_text(600, 100, text="GAME OVER", fill="black", font=('Banschrift Light SemiCondensed', 30))
-    canevas.create_text(600, 150, text=f"Score : {score}", fill="black", font=('Banschrift Light SemiCondensed', 20))
+    canevas.create_text(nb_colonnes*20,nb_lignes*20-50, text="GAME OVER", fill="black", font=('Comic Sans MS', 40))
+    canevas.create_text(nb_colonnes*20,nb_lignes*20, text=f"Score : {score}", fill="black", font=('Century Gothic', 20))
 
 def tour_de_jeu(snake):
     """Fonction qui analyse la case cible du snake après son acquisition par la fonction acquerir_cible, et déplace le snake selon les cas possibles
     """
     x_suite, y_suite = snake.acquerir_cible()
-    print(x_suite,y_suite)
     #analyse la case cible trois cas possible
     val = matriceCellules[x_suite][y_suite].valeur
     if val == 0 :#la case est vide
         snake.deplacer() #le snake se déplace simplement
         dessiner_grille(matriceCellules)
-        fenetre.after(500, tour_de_jeu, snake)
+        fenetre.after(250, tour_de_jeu, snake)
     elif val == 2 : #la case contient une pomme:
         snake.manger() #le snake se deplace avec la fonction manger qui ajoute un segemnt à son corps
         dessiner_grille(matriceCellules)
-        fenetre.after(500, tour_de_jeu, snake)
+        fenetre.after(250, tour_de_jeu, snake)
     elif val == 1 :#la case contient un segment du corps du snake:
         game_over(snake)
 
