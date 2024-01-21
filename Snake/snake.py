@@ -3,8 +3,8 @@ from random import *
 
 class Snake:
     def __init__(self,matriceCellules):
-        cell_centrale=matriceCellules[(len(matriceCellules))//2].pos#définition de la cellule de tête comme la cellule centrale
-        self.body=[cell_centrale,(cell_centrale[0]+1,cell_centrale[1]),(cell_centrale[0]+2,cell_centrale[1])]#liste de couples représentant le corps du snake 
+        cell_centrale=matriceCellules[nb_colonnes//2][nb_lignes//2]#définition de la cellule de tête comme la cellule centrale
+        self.body=[cell_centrale,(cell_centrale.pos[0]+1,cell_centrale.pos[1]),(cell_centrale.pos[0]+2,cell_centrale.pos[1])]#liste de couples représentant le corps du snake 
         self.direction=(0,-1)#gauche au départ, change plus tard selon les inputs du joueur
         pass
     
