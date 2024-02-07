@@ -117,7 +117,42 @@ def generer_pomme(matriceCellules):
     coord.valeur=2
     #la fonction manger() appelle la fonction generer pomme après le premier appel de celle ci
     #generer une nouvelle pomme dès que manger est appelé, ou des que aucune cellule a la valeur 2 (pomme présente)
+    if coord == 0:
+        x= (0, 5)# Langeur de la pomme
+        y=(0, 5)# la hauteur de la pomme
+        self.pomme =self.canvas.create.lozenge(x, y, x+ 5, y+ 5, fill="red")
     pass
+
+def game_over(snake):
+    score = len(snake.body)-3
+    canevas.create_text(nb_colonnes*20,nb_lignes*20-50, text="GAME OVER", fill="black", font=('Comic Sans MS', 40))
+    canevas.create_text(nb_colonnes*20,nb_lignes*20, text=f"Score : {score}", fill="black", font=('Century Gothic', 20))
+
+def tour_de_jeu(snake):
+    """Fonction qui analyse la case cible du snake après son acquisition par la fonction acquerir_cible, et déplace le snake selon les cas possibles
+    """
+    x_suite, y_suite = snake.acquerir_cible()
+    #analyse la case cible trois cas possible
+    val = matriceCellules[x_suite][y_suite].valeur
+    if val == 0 :#la case est vide
+        snake.deplacer() #le snake se déplace simplement
+        dessiner_grille(matriceCellules)
+        fenetre.after(50, tour_de_jeu, snake)
+    elif val == 2 : #la case contient une pomme:
+        SUITECOULEURS.append(COULEURS[1])
+        COULEURS[1] = SUITECOULEURS.pop(0) #change la couleur du snake à la prochaine valeur dans SUITECOULEURS
+        snake.manger() #le snake se deplace avec la fonction manger qui ajoute un segment à son corps
+        dessiner_grille(matriceCellules)
+        fenetre.after(50, tour_de_jeu, snake)
+    elif val == 1 :#la case contient un segment du corps du snake:
+        game_over(snake)
+
+def dessiner_grille(matriceCellules):
+    """Fonction qui s'occupe de mettre à jour la grille et les elements qu'elle contient
+    """
+    for ligne in matriceCellules :
+        for cell in ligne :
+            cell.changer_apparence() # appel de la méthode changer_apparence, qui s'occupe de changer l'apparence de la cellule en fonction de sa valeur
 
 def game_over(snake):
     score = len(snake.body)-3
