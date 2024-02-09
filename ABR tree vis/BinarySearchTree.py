@@ -7,6 +7,14 @@ class BinarySearchTree:
         self.right=None
         
     def __contains__(self, val):
+        """Methode surchargeant "in" pour verifier si une valeur passee en argument est presente dans self
+
+        Args:
+            val (int): valeur cible dont on vérifie la presence
+
+        Returns:
+            bool: -
+        """
         if self.root == None:
             return False
         if self.root == val :
