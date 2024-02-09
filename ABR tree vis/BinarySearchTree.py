@@ -13,7 +13,7 @@ class BinarySearchTree:
             valeur (int): valeur à inserer 
             depth (int, optional): hauteur. Defaults to 1.
         """
-        if depth>=6: #vérifie que la hauteur max n'est pas depasse 
+        if depth<=6: #vérifie que la hauteur max n'est pas depasse 
             if self.root==None:#cas d'un arbre vide
                 self.root=valeur
                 self.left=BinarySearchTree()
