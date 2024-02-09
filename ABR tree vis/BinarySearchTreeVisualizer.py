@@ -11,7 +11,7 @@ class BinarySearchTreeVisualizer :
         
         canevas=Canvas()
         canevas.place(x=0,y=120,width=800,height=400)
-        canevas.configure(bg="white",bd=0)
+        canevas.configure(bg="white",bd=0, highlightthickness=0)
         self.canevas=canevas
         self.tree=BinarySearchTree()
         
