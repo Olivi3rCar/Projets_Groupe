@@ -6,6 +6,16 @@ class BinarySearchTree:
         self.left=None
         self.right=None
         
+    def __contains__(self, val):
+        if self.root == None:
+            return False
+        if self.root == val :
+            return True
+        elif self.root > val :
+            return val in self.right
+        else :
+            return val in self.left
+    
     def insert(self,valeur,depth=1):
         """Méthode qui insère une valeur passee en argument si la hauteur maximale de 6 n'est pas depassee 
 
@@ -13,7 +23,10 @@ class BinarySearchTree:
             valeur (int): valeur à inserer 
             depth (int, optional): hauteur. Defaults to 1.
         """
-        if depth<=6: #vérifie que la hauteur max n'est pas depasse 
+        if depth<=6 and valeur not in self and valeur in range(0,100): #vérifications nécessaires :
+            # la hauteur de l'arbre n'est pas supérieure à 6
+            # la valeur n'est pas déjà présente dans l'arbre
+            # la valeur est comprise entre 0 et 99 inclus
             if self.root==None:#cas d'un arbre vide
                 self.root=valeur
                 self.left=BinarySearchTree()
