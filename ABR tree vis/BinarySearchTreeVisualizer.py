@@ -3,6 +3,8 @@ from BinarySearchTree import *
 
 class BinarySearchTreeVisualizer :
     def __init__(self):
+        """Constructeur de la classe BinarySearchTreeVisualizer
+        """
         window=Tk()
         window.geometry("800x600")
         window.configure(bg="white")
