@@ -6,6 +6,18 @@ class BinarySearchTree:
         self.left=None
         self.right=None
         
+    def __repr__(self,lst=None):
+        if lst==None:
+            lst=[]
+        if self.root==None:
+            return str(lst)
+        if self.left!=None:
+            self.left.__repr__(lst)
+        lst.append(self.root)
+        if self.right!=None:
+            self.right.__repr__(lst)
+        return str(lst)    
+    
     def __contains__(self, val):
         """Methode surchargeant "in" pour verifier si une valeur passee en argument est presente dans self
 
@@ -17,12 +29,16 @@ class BinarySearchTree:
         """
         if self.root == None:
             return False
-        if self.root == val :
+        if self.root > val :
+            if self.right==None:
+                self.right=BinarySearchTree()
+            self.right.__contains__(val)
+        elif self.root<val :
+            if self.left==None:
+                self.left=BinarySearchTree()
+            self.left.__contains__(val)
+        else:
             return True
-        elif self.root > val :
-            return val in self.right
-        else :
-            return val in self.left
     
     def insert(self,valeur,depth=1):
         """Méthode qui insère une valeur passee en argument si la hauteur maximale de 6 n'est pas depassee 
@@ -31,7 +47,9 @@ class BinarySearchTree:
             valeur (int): valeur à inserer 
             depth (int, optional): hauteur. Defaults to 1.
         """
-        if depth<=6 and valeur not in self and valeur in range(0,100): #vérifications nécessaires :
+        assert 0<=valeur<100 , "valeur invalide entree"
+        assert valeur not in self, "valeur deja presente"
+        if depth<=6 : #vérifications nécessaires :
             # la hauteur de l'arbre n'est pas supérieure à 6
             # la valeur n'est pas déjà présente dans l'arbre
             # la valeur est comprise entre 0 et 99 inclus

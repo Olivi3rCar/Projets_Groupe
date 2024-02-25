@@ -15,8 +15,18 @@ class BinarySearchTreeVisualizer :
         canevas.place(x=0,y=120,width=800,height=400)
         canevas.configure(bg="white",bd=0, highlightthickness=0)
         self.canevas=canevas#initialisation du canvas
-        self.tree=BinarySearchTree()#instancialisation de l'arbre (d'abord vide)
         
+        arbre_test=BinarySearchTree()
+        arbre_test.insert(20)
+        arbre_test.insert(10)
+        arbre_test.insert(30)
+        arbre_test.insert(5)
+        arbre_test.insert(15)
+        arbre_test.insert(25)
+        arbre_test.insert(35)
+        print(arbre_test)
+        
+        self.tree=arbre_test#instancialisation de l'arbre (d'abord vide)(ici code en dur)
         
         self.window.mainloop()
         
@@ -73,6 +83,6 @@ class BinarySearchTreeVisualizer :
         self.info_tab.update()
         
         
-arbre_test=BinarySearchTree()
-arbre_test.insert(valeur)
+
 eh=BinarySearchTreeVisualizer()
+eh.draw()
