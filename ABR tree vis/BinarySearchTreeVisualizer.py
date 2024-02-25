@@ -27,7 +27,7 @@ class BinarySearchTreeVisualizer :
         print(arbre_test)
         
         self.tree=arbre_test#instancialisation de l'arbre (d'abord vide)(ici code en dur)
-        
+        self.draw()
         self.window.mainloop()
         
     def draw(self,x=400,y=15,depth=1):
@@ -98,5 +98,3 @@ class BinarySearchTreeVisualizer :
         
 
 eh=BinarySearchTreeVisualizer()
-eh.draw()
-eh.window.mainloop()
