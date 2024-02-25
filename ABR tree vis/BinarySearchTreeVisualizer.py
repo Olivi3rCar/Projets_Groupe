@@ -30,7 +30,7 @@ class BinarySearchTreeVisualizer :
         self.draw()
         self.window.mainloop()
         
-    def draw(self,x=400,y=15,depth=1):
+    def draw(self,tree=None,x=400,y=15,depth=1):
         """Methode qui dessine recursivement l'arbre binaire de recherche
 
         Args:
@@ -39,38 +39,25 @@ class BinarySearchTreeVisualizer :
             y (int): coord y du centre. Defaults to 15.
             depth (int, optional): hauteur actuelle. Defaults to 1.
         """
-        if depth==1: #on dessine d'abord pour la racine originelle, sert a ne pas dessiner de branche qui relie la racine originelle a rien
-            if self.tree.root==None:#cas de racine originelle vide
-                return
-            else:#cas de la racine orirginelle non vide, affichage du premier noeud
-                if self.tree.left != None: # cas où le SAG existe : on trace une ligne et on appelle la fonction pour le SAG
-                    xG,yG=x-(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAG
-                    brancheG = self.canevas.create_line(x, y, xG, yG)#dessin de la branche qui relie la racine et le SAG
-                    self.tree.left.draw(xG,yG,depth+1)#rappel sur sous arbre gauche
-                if self.tree.right != None: # cas où le SAD existe : on trace une ligne et on appelle la fonction pour le SAD
-                    xD,yD=x+(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAD
-                    brancheD = self.canevas.create_line(x, y, xD, yD)#dessin de la branche qui relie la racine et le SAG
-                    self.tree.right.draw(xD,yD,depth+1)#rappel sur sous arbre droit (possiblement vide)
-                racine=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")# dessine le cercle correspondant au noeud
-                self.canevas.create_text(x,y,text=str(self.tree.root))#creer un text qui a la valeur du noeud à afficher
-                # le noeud est dessiné en dernier afin d'éviter des problèmes au niveau de quel élément se retrouve au premier plan,
-                # le noeud est forcément dessiné par dessus les branches si elles existent
-
-        # cas où la racine n'est pas l'originelle
-        if self.tree.root==None:#cas du noeud vide
+        if tree == None: # cas où la racine actuelle est la plus haute, on def tree comme l'ABR self.tree
+            tree = self.tree
+        if tree.root==None:#cas de racine vide
             return
-        else:#cas de noeud non vide (peut etre feuille)
-            if self.tree.left != None: # cas où le SAG existe : on trace une ligne et on appelle la fonction pour le SAG
+        else:#cas de la racine  non vide, affichage du noeud actuel
+            if tree.left != None and tree.left.root != None: # cas où le SAG existe : on trace une ligne et on appelle la fonction pour le SAG
+                print(tree, tree.left)
                 xG,yG=x-(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAG
                 brancheG = self.canevas.create_line(x, y, xG, yG)#dessin de la branche qui relie la racine et le SAG
-                self.tree.left.draw(xG,yG,depth+1)#rappel sur sous arbre gauche
-            if self.tree.right != None: # cas où le SAD existe : on trace une ligne et on appelle la fonction pour le SAD
+                self.draw(tree.left,xG,yG,depth+1)#rappel sur sous arbre gauche
+            if tree.right != None and tree.right.root != None : # cas où le SAD existe : on trace une ligne et on appelle la fonction pour le SAD
                 xD,yD=x+(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAD
                 brancheD = self.canevas.create_line(x, y, xD, yD)#dessin de la branche qui relie la racine et le SAG
-                self.tree.right.draw(xD,yD,depth+1)#rappel sur sous arbre droit (possiblement vide)
-            noeud=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")# dessine le cercle correspondant au noeud
-            self.canevas.create_text(x,y,text=str(self.tree.root))#creer un text qui a la valeur du noeud à afficher
-            # noeud dessiné en dernier pour les mêmes raisons que pour la racine
+                self.draw(tree.right,xD,yD,depth+1)#rappel sur sous arbre droit (possiblement vide)
+            racine=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")# dessine le cercle correspondant au noeud
+            self.canevas.create_text(x,y,text=str(tree.root))#creer un text qui a la valeur du noeud à afficher
+            # le noeud est dessiné en dernier afin d'éviter des problèmes au niveau de quel élément se retrouve au premier plan,
+            # le noeud est forcément dessiné par dessus les branches si elles existent
+
                 
         """
         coordonnee_centre = x, y
