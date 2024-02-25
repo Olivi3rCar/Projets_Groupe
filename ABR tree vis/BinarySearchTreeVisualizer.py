@@ -43,22 +43,35 @@ class BinarySearchTreeVisualizer :
             if self.tree.root==None:#cas de racine originelle vide
                 return
             else:#cas de la racine orirginelle non vide, affichage du premier noeud
-                racine=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")
+                if self.tree.left != None: # cas où le SAG existe : on trace une ligne et on appelle la fonction pour le SAG
+                    xG,yG=x-(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAG
+                    brancheG = self.canevas.create_line(x, y, xG, yG)#dessin de la branche qui relie la racine et le SAG
+                    self.tree.left.draw(xG,yG,depth+1)#rappel sur sous arbre gauche
+                if self.tree.right != None: # cas où le SAD existe : on trace une ligne et on appelle la fonction pour le SAD
+                    xD,yD=x+(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAD
+                    brancheD = self.canevas.create_line(x, y, xD, yD)#dessin de la branche qui relie la racine et le SAG
+                    self.tree.right.draw(xD,yD,depth+1)#rappel sur sous arbre droit (possiblement vide)
+                racine=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")# dessine le cercle correspondant au noeud
                 self.canevas.create_text(x,y,text=str(self.tree.root))#creer un text qui a la valeur du noeud à afficher
-                self.tree.left.draw(x=0,y=0,depth=depth+1)#rappel sur sous arbre gauche (possiblement vide)
-                self.tree.right.draw(x=0,y=0,depth=depth+1)#rappel sur sous arbre droit (possiblement vide)
+                # le noeud est dessiné en dernier afin d'éviter des problèmes au niveau de quel élément se retrouve au premier plan,
+                # le noeud est forcément dessiné par dessus les branches si elles existent
+
+        # cas où la racine n'est pas l'originelle
+        if self.tree.root==None:#cas du noeud vide
+            return
+        else:#cas de noeud non vide (peut etre feuille)
+            if self.tree.left != None: # cas où le SAG existe : on trace une ligne et on appelle la fonction pour le SAG
+                xG,yG=x-(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAG
+                brancheG = self.canevas.create_line(x, y, xG, yG)#dessin de la branche qui relie la racine et le SAG
+                self.tree.left.draw(xG,yG,depth+1)#rappel sur sous arbre gauche
+            if self.tree.right != None: # cas où le SAD existe : on trace une ligne et on appelle la fonction pour le SAD
+                xD,yD=x+(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAD
+                brancheD = self.canevas.create_line(x, y, xD, yD)#dessin de la branche qui relie la racine et le SAG
+                self.tree.right.draw(xD,yD,depth+1)#rappel sur sous arbre droit (possiblement vide)
+            noeud=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")# dessine le cercle correspondant au noeud
+            self.canevas.create_text(x,y,text=str(self.tree.root))#creer un text qui a la valeur du noeud à afficher
+            # noeud dessiné en dernier pour les mêmes raisons que pour la racine
                 
-        if depth>1 and depth<=6:#on dessine pour le reste des noeuds (diff hauteur) si hauteur inferieure a 6
-            if self.tree.root==None:#cas du noeud vide
-                return
-            else:#cas de noeud non vide (peut etre feuille)
-                #check si on est dans un sous arbre droit ou dans un sous arbre gauche (vérifie dans quel sens on décale un noeud donné par rapport à son parent): 
-                self.canevas.create_line(x,y,x+0,y-70)#dessine la branche qui relie le noeud à son parent (modif troisieme arg selon décalage par rapport au parent)
-                noeud=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")#creer un noeud
-                self.canevas.create_text(x,y,text=str(self.tree.root))#creer un text qui a la valeur du noeud à afficher
-                self.tree.left.draw(x=0,y=0,depth=depth+1)#rappel sur sous arbre gauche
-                self.tree.right.draw(x=0,y=0,depth=depth+1)#rappel sur sous arbre droit
-            
         """
         coordonnee_centre = x, y
         centre_x=x 
@@ -86,3 +99,4 @@ class BinarySearchTreeVisualizer :
 
 eh=BinarySearchTreeVisualizer()
 eh.draw()
+eh.window.mainloop()
