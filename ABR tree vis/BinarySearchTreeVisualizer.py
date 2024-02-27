@@ -59,22 +59,6 @@ class BinarySearchTreeVisualizer :
             # le noeud est forcément dessiné par dessus les branches si elles existent
 
                 
-        """
-        coordonnee_centre = x, y
-        centre_x=x 
-        centre_y=y
-        """
-        """self.branche= self.canevas.create_line(self.centre_x, self.centre_y, self.fils_gauche_x, self.fils_droite_y)
-        self.noeuds =self.canevas.create_oval((self.centre_x - self.noeuds,
-                                          self.centre_y - self.noeuds, 
-                                          self.centre_x + self.noeuds,
-                                          self.centre_y + self.noeuds), fill ="gray")
-        self.value = self.canevas.create_text(self.centre_x, self.centre_y, tex(tree.value))
-        if tree.left != None:
-            pass
-        if tree.right != None:
-            pass"""
-    
     def update(self):
         """Methode qui met a jour le canvas et l'onglet info_tab
         """
