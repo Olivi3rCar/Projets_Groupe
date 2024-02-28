@@ -2,12 +2,13 @@ from tkinter import *
 from BinarySearchTreeVisualizer import *
 
 class VisualizerEditTab:
-    def __init__(self,):
-        self.vizualiser=BinarySearchTreeVisualizer()
+    def __init__(self,visualizer,x,y):#20,5
+        self.vizualiser=visualizer
         
         frame=Frame()
         frame.configure(borderwidth=1,highlightcolor="black")
-        self.frame=Frame()
+        frame.place(x=x,y=y,width=200,height=100)
+        self.frame=frame
         
         self.add_label=Label()
         self.del_label=Label()
@@ -17,13 +18,25 @@ class VisualizerEditTab:
         self.del_button=Button()
 
 class VisualizerInfoTab:
-    def __init__(self):
-        self.vizualiser=BinarySearchTreeVisualizer()
-        self.frame=Frame()
-        self.size_label=Label(self.frame)
-        self.depth_label=Label(self.frame)
-        self.leaf_label=Label(self.frame)
+    def __init__(self,visualizer,x,y):#580,5
+        self.vizualiser=visualizer
+        
+        frame=Frame()
+        frame.configure(borderwidth=1,highlightcolor="black")
+        frame.place(x=x,y=y,width=200,height=100)
+        self.frame=frame
+        
+        size=Label()
+        size.place(anchor=self.Frame,x=10,y=5,width=190,height=15)
+        depth=Label()
+        depth.place(anchor=self.Frame,x=10,y=35,width=190,height=15)
+        leaf=Label()
+        leaf.place(anchor=self.Frame,x=10,y=65,width=190,height=15)
+        
+        self.size_label=size
+        self.depth_label=depth
+        self.leaf_label=leaf
         
 class VisualizerCommandTab:
-    def __init__(self):
+    def __init__(self,x,y):#18,510
         pass
