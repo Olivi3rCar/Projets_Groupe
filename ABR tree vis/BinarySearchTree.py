@@ -23,7 +23,6 @@ class BinarySearchTree:
 
         Args:
             val (int): valeur cible dont on vérifie la presence
-
         Returns:
             bool: -
         """
@@ -61,3 +60,25 @@ class BinarySearchTree:
                 self.left.insert(valeur, depth+1)
             elif valeur>self.root:#cas de la valeur à inserer plus grande que la racine
                 self.right.insert(valeur,depth+1)
+                
+    def size(self):
+        if self.root==None:
+            return 0
+        return 1+self.left.size()+self.right.size()
+    
+    
+    def depth(self):
+        if self.root==None:
+            return 0
+        return 1+max(self.left.size(),self.right.size())
+    
+    def leaves(self):
+        if self.root==None:
+            return 0
+        else:
+            if self.left==BinarySearchTree() and self.right==BinarySearchTree():
+                return 1
+            else:
+                return self.left.leaves()+self.right.leaves()
+    
+  
