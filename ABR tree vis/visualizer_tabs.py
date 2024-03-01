@@ -2,7 +2,7 @@ from tkinter import *
 from BinarySearchTreeVisualizer import *
 
 class VisualizerEditTab:
-    def __init__(self,visualizer,x,y):#20,5
+    def __init__(self,visualizer,x=20,y=5):#20,5
         self.vizualiser=visualizer
         
         frame=Frame()
@@ -18,7 +18,7 @@ class VisualizerEditTab:
         self.del_button=Button()
 
 class VisualizerInfoTab:
-    def __init__(self,visualizer,x,y):#580,5
+    def __init__(self,visualizer,x=580,y=5):#580,5
         self.vizualiser=visualizer
         
         frame=Frame()
@@ -38,5 +38,5 @@ class VisualizerInfoTab:
         self.leaf_label=leaf
         
 class VisualizerCommandTab:
-    def __init__(self,x,y):#18,510
+    def __init__(self,x=18,y=510):#18,510
         pass
