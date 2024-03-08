@@ -1,5 +1,6 @@
 from tkinter import *
 from BinarySearchTree import *
+from visualizer_tabs import *
 
 class BinarySearchTreeVisualizer :
     def __init__(self):
@@ -24,10 +25,13 @@ class BinarySearchTreeVisualizer :
         arbre_test.insert(15)
         arbre_test.insert(25)
         arbre_test.insert(35)
-        print(arbre_test)
         
         self.tree=arbre_test#instancialisation de l'arbre (d'abord vide)(ici code en dur)
         self.draw()
+        self.info = VisualizerInfoTab(self)
+        self.command = VisualizerCommandTab(self)
+        self.edit = VisualizerEditTab(self)
+        
         self.window.mainloop()
         
     def draw(self,tree=None,x=400,y=15,depth=1):
@@ -45,7 +49,6 @@ class BinarySearchTreeVisualizer :
             return
         else:#cas de la racine  non vide, affichage du noeud actuel
             if tree.left != None and tree.left.root != None: # cas où le SAG existe : on trace une ligne et on appelle la fonction pour le SAG
-                print(tree, tree.left)
                 xG,yG=x-(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAG
                 brancheG = self.canevas.create_line(x, y, xG, yG)#dessin de la branche qui relie la racine et le SAG
                 self.draw(tree.left,xG,yG,depth+1)#rappel sur sous arbre gauche
@@ -57,15 +60,12 @@ class BinarySearchTreeVisualizer :
             self.canevas.create_text(x,y,text=str(tree.root))#creer un text qui a la valeur du noeud à afficher
             # le noeud est dessiné en dernier afin d'éviter des problèmes au niveau de quel élément se retrouve au premier plan,
             # le noeud est forcément dessiné par dessus les branches si elles existent
-
-                
+    
     def update(self):
         """Methode qui met a jour le canvas et l'onglet info_tab
         """
         self.canevas.delete()
         self.draw()
         self.info_tab.update()
-        
-        
 
-eh=BinarySearchTreeVisualizer()
+arbre = BinarySearchTreeVisualizer()

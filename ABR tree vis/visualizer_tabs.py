@@ -1,9 +1,8 @@
 from tkinter import *
-from BinarySearchTreeVisualizer import *
 
 class VisualizerEditTab:
     def __init__(self,visualizer,x=20,y=5):#20,5
-        self.vizualiser=visualizer
+        self.visualizer=visualizer
         
         frame=Frame()
         frame.configure(borderwidth=1,highlightcolor="black")
@@ -19,24 +18,39 @@ class VisualizerEditTab:
 
 class VisualizerInfoTab:
     def __init__(self,visualizer,x=580,y=5):#580,5
-        self.vizualiser=visualizer
+        self.visualizer=visualizer
         
         frame=Frame()
-        frame.configure(borderwidth=1,highlightcolor="black")
+        frame.configure(borderwidth=1,border=True)
         frame.place(x=x,y=y,width=200,height=100)
         self.frame=frame
         
         size=Label()
-        size.place(anchor=self.Frame,x=10,y=5,width=190,height=15)
+        size.place(x=x,y=5,width=190,height=15)
         depth=Label()
-        depth.place(anchor=self.Frame,x=10,y=35,width=190,height=15)
+        depth.place(x=x,y=35,width=190,height=15)
         leaf=Label()
-        leaf.place(anchor=self.Frame,x=10,y=65,width=190,height=15)
+        leaf.place(x=x,y=65,width=190,height=15)
         
         self.size_label=size
         self.depth_label=depth
         self.leaf_label=leaf
         
 class VisualizerCommandTab:
-    def __init__(self,x=18,y=510):#18,510
-        pass
+    def __init__(self,visualizer,x=18,y=510):
+        self.visualizer = visualizer
+        
+        frame=Frame()
+        frame.configure(borderwidth=1,highlightcolor="black")
+        frame.place(x=x,y=y,width=764,height=80)
+        self.frame=frame
+        
+        self.output_entry = Entry()
+        
+        self.nouveau = Button()
+        self.infixe = Button()
+        self.prefixe = Button()
+        self.postfixe = Button()
+        self.largeur = Button()
+        self.export = Button()
+        self.reduire = Button()
