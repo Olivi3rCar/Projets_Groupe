@@ -74,12 +74,24 @@ class VisualizerCommandTab:
         frame.place(x=x,y=y,width=764,height=80)
         self.frame=frame
         
-        self.output_entry = Entry()
+        output=Entry(frame)
+        output.place(x=10,y=55,width=660,height=15)
+        self.output_entry = output
         
-        self.nouveau = Button()
-        self.infixe = Button()
-        self.prefixe = Button()
-        self.postfixe = Button()
-        self.largeur = Button()
-        self.export = Button()
-        self.reduire = Button()
+        
+        nouveau=Button(frame,text="Nouveau")
+        nouveau.place(x=10,y=10,width=)
+        infixe=Button(frame,text="Infixe")
+        prefixe=Button(frame,text="Préfixe")
+        postfixe=Button(frame,text="Postfixe")
+        largeur=Button(frame,text="Largeur")
+        export=Button(frame,text="Exporter")
+        reduire=Button(frame,text="Réduire")
+        
+        self.nouveau_button = nouveau 
+        self.infixe_button = infixe
+        self.prefixe_button = prefixe
+        self.postfixe_button = postfixe
+        self.largeur_button = largeur
+        self.export_button = export
+        self.reduire_button = reduire
