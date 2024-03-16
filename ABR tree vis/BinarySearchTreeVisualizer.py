@@ -26,11 +26,14 @@ class BinarySearchTreeVisualizer :
         arbre_test.insert(25)
         arbre_test.insert(35)
         
+        print(arbre_test)
+        
         self.tree=arbre_test#instancialisation de l'arbre (d'abord vide)(ici code en dur)
         self.draw()
         self.info = VisualizerInfoTab(self)
         self.command = VisualizerCommandTab(self)
         self.edit = VisualizerEditTab(self)
+        self.update()
         
         self.window.mainloop()
         
@@ -66,6 +69,6 @@ class BinarySearchTreeVisualizer :
         """
         self.canevas.delete()
         self.draw()
-        self.info_tab.update()
+        #self.info.update(self.tree)
 
 arbre = BinarySearchTreeVisualizer()
