@@ -75,12 +75,12 @@ class VisualizerCommandTab:
         self.frame=frame
         
         output=Entry(frame)
-        output.place(x=10,y=55,width=660,height=15)
+        output.place(x=10,y=55,width=744,height=15)
         self.output_entry = output
         
         
         nouveau=Button(frame,text="Nouveau")
-        nouveau.place(x=10,y=10,width=)
+        #nouveau.place(x=10,y=10,width=)
         infixe=Button(frame,text="Infixe")
         prefixe=Button(frame,text="Préfixe")
         postfixe=Button(frame,text="Postfixe")
