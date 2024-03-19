@@ -61,25 +61,35 @@ class BinarySearchTree:
             elif valeur>self.root:#cas de la valeur à inserer plus grande que la racine
                 self.right.insert(valeur,depth+1)
                 
-    """def size(self):
+    def size(self):
         if self.root==None and self.right==None and self.left==None:
             return 0
-        if self.right!=BinarySearchTree() and self.left!=BinarySearchTree():
-            return 1+self.left.size()+self.right.size()"""
+        somme = 1
+        if type(self.left) is BinarySearchTree :
+            somme += self.left.size()
+        if type(self.right) is BinarySearchTree :
+            somme += self.right.size()
+        return somme
     
     
-    """def depth(self):
+    def depth(self):
         if self.root==None:
             return 0
-        return 1+max(self.left.size(),self.right.size())"""
+        dsag, dsad = 0, 0
+        if type(self.left) is BinarySearchTree :
+            dsag = self.left.depth()
+        if type(self.right) is BinarySearchTree :
+            dsad = self.right.depth()
+        return 1+max(dsag,dsad)
     
     def leaves(self):
         if self.root==None:
             return 0
-        else:
-            if self.left==BinarySearchTree() and self.right==BinarySearchTree():
-                return 1
-            else:
-                return self.left.leaves()+self.right.leaves()
-    
-  
+        lsag, lsad = 0, 0
+        if type(self.left) is BinarySearchTree :
+            lsag = self.left.leaves()
+        if type(self.right) is BinarySearchTree :
+            lsad = self.right.leaves()
+        if lsad == 0 and lsag == 0 :
+            return 1
+        return lsag + lsad

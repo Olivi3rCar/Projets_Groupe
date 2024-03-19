@@ -27,7 +27,6 @@ class BinarySearchTreeVisualizer :
         arbre_test.insert(35)
         
         print(arbre_test)
-        
         self.tree=arbre_test#instancialisation de l'arbre (d'abord vide)(ici code en dur)
         self.draw()
         self.info = VisualizerInfoTab(self)
