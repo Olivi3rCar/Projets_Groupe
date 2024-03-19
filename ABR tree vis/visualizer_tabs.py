@@ -38,7 +38,7 @@ class VisualizerInfoTab:
         
 class VisualizerCommandTab:
     def __init__(self,visualizer,x=18,y=510):
-        self.visualizer = visualizer
+        self.visu = visualizer
         
         frame=Frame()
         frame.configure(borderwidth=1,highlightcolor="black")
@@ -47,10 +47,17 @@ class VisualizerCommandTab:
         
         self.output_entry = Entry()
         
-        self.nouveau = Button()
-        self.infixe = Button()
-        self.prefixe = Button()
-        self.postfixe = Button()
-        self.largeur = Button()
-        self.export = Button()
-        self.reduire = Button()
+        self.nouveau = Button(self.visu.window, "Nouveau",
+                            command = self.visu.resetTree)
+        self.infixe = Button(self.visu.window, "Infixe",
+                            command = self.visu.infixe)
+        self.prefixe = Button(self.visu.window, "Prefixe",
+                            command = self.visu.prefixe)
+        self.postfixe = Button(self.visu.window, "Postfixe",
+                            command = self.visu.postfixe)
+        self.largeur = Button(self.visu.window, "Largeur",
+                            command = self.visu.largeur)
+        self.export = Button(self.visu.window, "Exporter",
+                            command = self.visu.export)
+        self.reduire = Button(self.visu.window, "Réduire",
+                            self.visu.opti)

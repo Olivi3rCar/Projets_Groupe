@@ -93,3 +93,11 @@ class BinarySearchTree:
         if lsad == 0 and lsag == 0 :
             return 1
         return lsag + lsad
+    
+    def infixe(self):
+        tab = []
+        return tab
+    
+    def optimized(self):
+        otree = BinarySearchTree()
+        return otree
