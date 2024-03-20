@@ -14,14 +14,14 @@ class VisualizerEditTab:
         add_label.place(x=10,y=15,width=90,height=15)
         add_entry=Entry(frame)
         add_entry.place(x=110,y=15,width=30,height=15)
-        add_button=Button(frame,command=self.on_add())
+        add_button=Button(frame,text="OK",command=self.on_add())
         add_button.place(x=160,y=15,width=30,height=15)
 
         del_label=Label(frame,text="Enlever valeur :",background="#d3d3d3")
         del_label.place(x=10,y=60,width=90,height=15)
         del_entry=Entry(frame)
         del_entry.place(x=110,y=60,width=30,height=15)
-        del_button=Button(frame,command=self.on_del())
+        del_button=Button(frame,text="OK",command=self.on_del())
         del_button.place(x=160,y=60,width=30,height=15)
 
 
@@ -49,11 +49,11 @@ class VisualizerInfoTab:
         self.frame=frame
         
         size=Label(frame,text="Taille de l'arbre : 0",anchor="w", background="#d3d3d3")
-        size.place(x=10,y=5,width=190,height=15)
+        size.place(x=10,y=10,width=190,height=15)
         depth=Label(frame,text="Hauteur de l'arbre : 0",anchor="w", background="#d3d3d3")
-        depth.place(x=10,y=35,width=190,height=15)
+        depth.place(x=10,y=40,width=190,height=15)
         leaf=Label(frame,text="Nombre de feuilles : 0",anchor="w", background="#d3d3d3")
-        leaf.place(x=10,y=65,width=190,height=15)
+        leaf.place(x=10,y=70,width=190,height=15)
         
         self.size_label=size
         self.depth_label=depth
@@ -80,13 +80,25 @@ class VisualizerCommandTab:
 
 
         nouveau=Button(frame,text="Nouveau")
-        nouveau.place(x=10,y=10,width="to complete")
+        #nouveau.place(x=10,y=10,width="to complete")
+        
         infixe=Button(frame,text="Infixe")
+        #infixe.place(x=,y=10)
+        
         prefixe=Button(frame,text="Préfixe")
+        #prefixe.place(x=,y=10)
+        
         postfixe=Button(frame,text="Postfixe")
+        #postfixe.place(x=,y=10)
+        
         largeur=Button(frame,text="Largeur")
+        #largeur.place(x=,y=10)
+        
         export=Button(frame,text="Exporter")
+        #export.place(x=,y=10)
+        
         reduire=Button(frame,text="Réduire")
+        #reduire.place(x=,y=10)
 
         self.nouveau_button = nouveau 
         self.infixe_button = infixe
