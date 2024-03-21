@@ -61,13 +61,7 @@ class BinarySearchTreeVisualizer :
             self.canevas.create_text(x,y,text=str(tree.root))#creer un text qui a la valeur du noeud à afficher
             # le noeud est dessiné en dernier afin d'éviter des problèmes au niveau de quel élément se retrouve au premier plan,
             # le noeud est forcément dessiné par dessus les branches si elles existent
-    
-    def update(self):
-        """Methode qui met a jour le canvas et l'onglet info_tab
-        """
-        self.canevas.delete()
-        self.draw()
-        #self.info.update(self.tree)
+            
     
     def resetTree(self) :
         self.tree = BinarySearchTree()
@@ -75,5 +69,28 @@ class BinarySearchTreeVisualizer :
     
     def infixe(self):
         self.command.output_entry.textvariable = self.tree.infixe()
+        
+    def prefixe(self):
+        pass
+    
+    def postfixe(self):
+        pass
+    
+    def largeur(self):
+        pass
+    
+    def export(self):
+        pass
+    
+    def opti(self):
+        pass
+    
+    def update(self):
+        """Methode qui met a jour le canvas et l'onglet info_tab
+        """
+        self.canevas.delete()
+        self.draw()
+        self.info.update(self.tree)
+    
 
 arbre = BinarySearchTreeVisualizer()
