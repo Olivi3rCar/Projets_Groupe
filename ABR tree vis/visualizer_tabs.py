@@ -80,25 +80,25 @@ class VisualizerCommandTab:
 
 
         nouveau=Button(frame,text="Nouveau")
-        #nouveau.place(x=10,y=10,width="to complete")
+        nouveau.place(x=10,y=10,width=82,height=25)
         
         infixe=Button(frame,text="Infixe")
-        #infixe.place(x=,y=10)
+        infixe.place(x=120,y=10,width=82,height=25)
         
         prefixe=Button(frame,text="Préfixe")
-        #prefixe.place(x=,y=10)
+        prefixe.place(x=230,y=10,width=82,height=25)
         
         postfixe=Button(frame,text="Postfixe")
-        #postfixe.place(x=,y=10)
+        postfixe.place(x=340,y=10,width=82,height=25)
         
         largeur=Button(frame,text="Largeur")
-        #largeur.place(x=,y=10)
+        largeur.place(x=450,y=10,width=82,height=25)
         
         export=Button(frame,text="Exporter")
-        #export.place(x=,y=10)
+        export.place(x=560,y=10,width=82,height=25)
         
         reduire=Button(frame,text="Réduire")
-        #reduire.place(x=,y=10)
+        reduire.place(x=670,y=10,width=82,height=25)
 
         self.nouveau_button = nouveau 
         self.infixe_button = infixe
@@ -127,5 +127,3 @@ class VisualizerCommandTab:
         self.reduire = Button(frame,text= "Réduire")
                             #command=self.visu.opti)
                             
-                            
-        self.output_entry = Entry()
