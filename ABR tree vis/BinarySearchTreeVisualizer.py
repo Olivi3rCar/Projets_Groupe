@@ -2,29 +2,23 @@ from tkinter import *
 from BinarySearchTree import *
 from visualizer_tabs import *
 
+
 class BinarySearchTreeVisualizer :
     def __init__(self):
         """Constructeur de la classe BinarySearchTreeVisualizer
         """
         window=Tk()
         window.geometry("800x600")
-        window.configure(bg="white")
+        window.configure(bg=LIGHT)
         window.resizable(0,0)
         self.window=window#initalisation de la fenetre
         
         canevas=Canvas()
         canevas.place(x=0,y=120,width=800,height=400)
-        canevas.configure(bg="white",bd=0, highlightthickness=0)
+        canevas.configure(bg=LIGHT,bd=0, highlightthickness=0)
         self.canevas=canevas#initialisation du canvas
         
         arbre_test=BinarySearchTree()
-        arbre_test.insert(20)
-        arbre_test.insert(10)
-        arbre_test.insert(30)
-        arbre_test.insert(5)
-        arbre_test.insert(15)
-        arbre_test.insert(25)
-        arbre_test.insert(35)
         
         self.tree=arbre_test#instancialisation de l'arbre (d'abord vide)(ici code en dur)
         self.draw()
@@ -57,38 +51,51 @@ class BinarySearchTreeVisualizer :
                 xD,yD=x+(6*(2**(6-depth))),y+70 #calcul des coords du noeud su SAD
                 brancheD = self.canevas.create_line(x, y, xD, yD)#dessin de la branche qui relie la racine et le SAG
                 self.draw(tree.right,xD,yD,depth+1)#rappel sur sous arbre droit (possiblement vide)
-            racine=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill="grey")# dessine le cercle correspondant au noeud
-            self.canevas.create_text(x,y,text=str(tree.root))#creer un text qui a la valeur du noeud à afficher
+            racine=self.canevas.create_oval(x-11,y-11,x+11,y+11,fill=DARK)# dessine le cercle correspondant au noeud
+            self.canevas.create_text(x,y,text=str(tree.root), fill="white")#creer un text qui a la valeur du noeud à afficher
             # le noeud est dessiné en dernier afin d'éviter des problèmes au niveau de quel élément se retrouve au premier plan,
             # le noeud est forcément dessiné par dessus les branches si elles existent
             
     
     def resetTree(self) :
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
         self.tree = BinarySearchTree()
         self.update()
     
     def infixe(self):
-        self.command.output_entry.textvariable = self.tree.infixe()
-        
-    def prefixe(self):
-        pass
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
+        liste = self.tree.infixe()
+        self.command.output_entry.insert(0, ",".join(liste))
     
+    def prefixe(self):
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
+        liste = self.tree.prefixe()
+        self.command.output_entry.insert(0, ",".join(liste))
+        
     def postfixe(self):
-        pass
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
+        liste = self.tree.postfixe()
+        self.command.output_entry.insert(0, ",".join(liste))
     
     def largeur(self):
-        pass
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
+        liste = self.tree.parcours_largeur()
+        self.command.output_entry.insert(0, ",".join(liste))
     
     def export(self):
-        pass
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
+        tup = self.tree.sous_forme_de_tuples_imbriqués()
+        self.command.output_entry.insert(0, str(tup))
     
     def opti(self):
-        pass
+        self.command.output_entry.delete(0,END)#on efface la valeur dans Entry
+        self.tree.optimized()
+        self.update()
     
     def update(self):
         """Methode qui met a jour le canvas et l'onglet info_tab
         """
-        self.canevas.delete()
+        self.canevas.delete('all')
         self.draw()
         self.info.update(self.tree)
     
